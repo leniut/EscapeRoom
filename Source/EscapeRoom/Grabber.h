@@ -27,17 +27,18 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 private:
-
-
+	
 	UPROPERTY(EditAnywhere)
 	float Reach = 100.0f;
-
-	UPhysicsHandleComponent* PhysicHandle = nullptr;
+		
 	UInputComponent* InputComponent = nullptr;
+	UPhysicsHandleComponent* PhysicHandle = nullptr;
 
 	void FindPhisicHandleComponent();
 	void SetupInputComponent();
 	void Grab();
 	void Release();
 	const FHitResult GetFirstPhysicsBodyInReach();
+	FVector GetReachLineEnd();
+	FVector GetReachLineStart();
 };
