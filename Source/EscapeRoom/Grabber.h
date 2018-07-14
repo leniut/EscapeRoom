@@ -4,8 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
-#include "Grabber.generated.h"
+#include "PhysicsEngine/PhysicsHandleComponent.h"
+#include "Components/InputComponent.h"
 
+#include "Grabber.generated.h"
 
 UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class ESCAPEROOM_API UGrabber : public UActorComponent
@@ -30,5 +32,12 @@ private:
 	UPROPERTY(EditAnywhere)
 	float Reach = 100.0f;
 
+	UPhysicsHandleComponent* PhysicHandle = nullptr;
+	UInputComponent* InputComponent = nullptr;
 
+	void FindPhisicHandleComponent();
+	void SetupInputComponent();
+	void Grab();
+	void Release();
+	const FHitResult GetFirstPhysicsBodyInReach();
 };
