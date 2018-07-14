@@ -35,6 +35,8 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
+	if (!PhysicHandle) return;
+
 	if (PhysicHandle->GrabbedComponent)
 	{
 		PhysicHandle->SetTargetLocation(GetReachLineEnd());
@@ -51,12 +53,15 @@ void UGrabber::Grab()
 	if (ActorHit)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("%s grab s%"), *GetOwner()->GetName(), *ComponentToGrab->GetOwner()->GetName());
+		if (!PhysicHandle) return;
+
 		PhysicHandle->GrabComponentAtLocationWithRotation(ComponentToGrab, NAME_None, ComponentToGrab->GetOwner()->GetActorLocation(), ComponentToGrab->GetOwner()->GetActorRotation());
 	}
 }
 
 void UGrabber::Release()
 {
+	if (!PhysicHandle) return;
 	PhysicHandle->ReleaseComponent();
 }
 
@@ -64,7 +69,7 @@ void UGrabber::SetupInputComponent()
 {
 	/// Input controller
 	InputComponent = GetOwner()->FindComponentByClass<UInputComponent>();
-	if (InputComponent)
+	if (InputComponent != nullptr)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("InputComponent found at %s !"), *GetOwner()->GetName());
 		InputComponent->BindAction("Grab", IE_Pressed, this, &UGrabber::Grab);
